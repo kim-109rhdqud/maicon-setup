@@ -8,7 +8,7 @@ GPU 없는 ARM 서버에서 **빌드가 되는지**와 **tar 저장·불러오�
 |---|---|
 | AMI | Ubuntu Server 22.04 LTS **(64-bit Arm)** |
 | 타입 | `c7g.2xlarge` (8코어, 빌드 빠름) 또는 `t4g.xlarge` (싸지만 느림) |
-| 디스크 | gp3 **120GB** (이미지 3벌 × ~10GB + tar 3벌 × ~10GB + 여유) |
+| 디스크 | gp3 **120GB** (이미지 1벌 약 9GB, tar 1벌 약 3.5GB — 실측) |
 | 보안 그룹 | SSH(22)만 |
 
 비용 감각: c7g.2xlarge 시간당 약 0.3~0.4달러. 빌드 끝나면 **중지(stop)** 또는 종료.
@@ -41,7 +41,7 @@ ls -lh tars/
 ```bash
 docker rmi maicon-detector:jp6.1
 docker load -i tars/maicon-detector-jp6.1.tar
-docker run --rm maicon-detector:jp6.1 /app/scripts/check.sh    # GPU 없는 서버라 GPU·nvinfer 는 "없음"이 정상
+docker run --rm maicon-detector:jp6.1 /app/scripts/check.sh    # GPU 없는 서버라 TensorRT·pyds·GPU·nvinfer 는 "없음"이 정상 (Jetson 호스트 마운트)
 docker run --rm maicon-detector:jp6.1 python3 -c "import pyds, rclpy, cv_bridge, vision_msgs; print('imports ok')"
 ```
 
@@ -51,7 +51,7 @@ docker run --rm maicon-detector:jp6.1 python3 -c "import pyds, rclpy, cv_bridge,
 # 내 PC 에서
 scp -i key.pem ubuntu@<IP>:~/maicon-setup/jetson/deepstream/tars/*.tar* ./
 ```
-30GB 안팎이라 오래 걸린다. S3 를 거치면 끊겨도 이어받기 쉽다: `aws s3 cp tars/ s3://<버킷>/ --recursive`.
+tar 1벌 약 3.5GB, 세 벌 10GB 안팎. S3 를 거치면 끊겨도 이어받기 쉽다: `aws s3 cp tars/ s3://<버킷>/ --recursive`.
 
 ## 6. 외장 드라이브 구성
 

@@ -70,8 +70,14 @@ UGV 카메라(`/image_raw`, 640×480)에서 전장 객체 6종 + 지정표적 �
 | 탐지 결과 토픽 형식 | 지금은 `/detections`(vision_msgs) + `/detections_json`. 팀이 쓰기 편한 쪽으로 | 회의 |
 | 클래스 순서 | `labels.txt` 와 학습 data.yaml 이 같아야 함 | 학습 담당 |
 
-## 검증 범위
+## 검증 결과 (2026-11-08, AWS c7g.2xlarge / Ubuntu 24.04 arm64)
 
-- 여기서 한 것: 문법 확인, `launch_inference` 가짜 docker 로 동작 확인
-- AWS에서 할 것: 빌드 통과, tar 저장·불러오기, 컨테이너 안 import 확인 (`aws/build_on_aws.md`)
-- 로봇에서만 되는 것: GPU 추론, 속도, 메모리, 파서 컴파일
+| 확인 | 결과 |
+|---|---|
+| JetPack 6.1 이미지 빌드 (`./build.sh 6.1`) | 통과. 이미지 9.2GB, tar 3.4GB (빌드 약 20분) |
+| `docker rmi` → `docker load` → 컨테이너 실행 | 통과 |
+| 컨테이너 안 rclpy·cv_bridge·vision_msgs, ROS2 토픽, trtexec, labels.txt | ok |
+| TensorRT·pyds·GPU·nvinfer | AWS에서는 "라이브러리 없음" — **정상**. JetPack 6 DeepStream 컨테이너는 CUDA·TensorRT를 호스트(Jetson)에서 마운트해 쓰므로 로봇에서 `--runtime nvidia`로 실행해야 보임 |
+| YOLO 파서 | 빌드 때 컴파일 안 됨(nvcc·헤더 없음) → **로봇에서 첫 실행 때 자동 컴파일** (entrypoint). 실패해도 컨테이너는 뜸 |
+
+로봇에서만 되는 것: GPU 추론, 속도, 메모리, 파서 컴파일, pyds import.
