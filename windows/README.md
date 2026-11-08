@@ -26,16 +26,21 @@ VS Code 확장·설정은 스크립트가 깔지 않고 **개인 계정 동기�
 현장에서 VS Code를 켜고 같은 계정으로 로그인하면 확장·설정·단축키가 자동으로 따라온다. 대회가 끝나면 현장 PC에서 로그아웃한다.
 스크립트는 팀 공통인 Python, Remote-SSH 2개만 깐다.
 
-## 현장에서
+## 현장에서 — 이 순서대로
 
-1. **직접 설치 (사이트에서):** VS Code, Claude Desktop, Claude Code. 스크립트는 깔렸는지만 확인하고 없으면 알려줌
-   - VS Code: https://code.visualstudio.com → 설치 후 계정 로그인하면 확장·설정이 따라옴
-   - Claude Desktop: https://claude.ai/download
-   - Claude Code: 터미널에서 `npm install -g @anthropic-ai/claude-code` (Node.js는 스크립트가 깔아 둠 → 2번을 먼저 돌린 뒤 실행)
-2. 이 폴더를 PC로 복사 (외장 드라이브 또는 GitHub ZIP)
-3. `setup.bat` 더블클릭 → UAC 예 → `desktop` 또는 `laptop` 입력
-4. WSL을 처음 켜는 PC는 **재부팅 1회**. 재부팅 후 로그인하면 자동으로 이어서 설치 (UAC 창에 예)
-5. 끝에 `모두 정상` 또는 `확인할 것 N건` 목록이 나옴. 로그는 `setup_log.txt`
+| 순서 | 할 일 | 방법 |
+|---|---|---|
+| 1 | **VS Code 설치** | https://code.visualstudio.com 에서 받아 설치 → 계정 로그인(확장·설정 동기화) |
+| 2 | **Claude Desktop 설치** | https://claude.ai/download 에서 받아 설치 |
+| 3 | 이 폴더를 PC로 복사 | 외장 드라이브 또는 GitHub ZIP |
+| 4 | **`setup.bat` 더블클릭** | UAC 예 → `desktop` 또는 `laptop` 입력. Git·Python·Node.js 등 자동 설치 |
+| 5 | 재부팅 (WSL 처음 켜는 PC만) | "지금 재부팅?" Y → 로그인하면 자동으로 이어서 설치 (UAC 예) |
+| 6 | 결과 확인 | `모두 정상` 또는 `확인할 것 N건`. 로그 `setup_log.txt` |
+| 7 | **Claude Code 설치** | 새 터미널에서 `npm install -g @anthropic-ai/claude-code` (4번에서 깐 Node.js 사용) |
+
+- 1·2번은 스크립트 **앞**: VS Code가 있어야 4번에서 확장 2개가 들어감
+- 7번은 스크립트 **뒤**: Node.js가 있어야 함
+- 순서를 어겼으면 `setup.bat`을 한 번 더 돌리면 됨 (깔린 건 건너뜀)
 
 | 역할 | 설치되는 것 |
 |---|---|
