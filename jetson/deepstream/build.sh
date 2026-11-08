@@ -10,8 +10,12 @@ source versions.env
 SAVE="${SAVE:-1}"
 
 build_one() {
-  local jp="$1" key="JP${jp/./}"
-  local image="${key}_DS_IMAGE" cuda="${key}_CUDA_VER" pyds="${key}_PYDS_VER" wheel="${key}_PYDS_WHEEL"
+  local jp="$1"
+  local key="JP${jp/./}"
+  local image="${key}_DS_IMAGE"
+  local cuda="${key}_CUDA_VER"
+  local pyds="${key}_PYDS_VER"
+  local wheel="${key}_PYDS_WHEEL"
   local tag="maicon-detector:jp${jp}"
   echo "=== JetPack ${jp}: base ${!image}, CUDA ${!cuda}, pyds ${!pyds}"
   local args=(--build-arg "DS_IMAGE=${!image}" --build-arg "JETPACK=${jp}" --build-arg "CUDA_VER=${!cuda}"
