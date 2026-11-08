@@ -1,0 +1,7 @@
+# 모든 PC (데스크탑·노트북) 공통
+requests>=2.31
+PyYAML>=6.0
+pytest>=8.0
+numpy>=1.26,<2.3
+opencv-python>=4.9
+jupyter>=1.0

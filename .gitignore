@@ -1,0 +1,4 @@
+windows/offline/
+windows/installed-*.txt
+windows/setup_log.txt
+*.tar
