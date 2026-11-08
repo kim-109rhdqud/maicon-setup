@@ -74,7 +74,7 @@ UGV 카메라(`/image_raw`, 640×480)에서 전장 객체 6종 + 지정표적 �
 
 | 확인 | 결과 |
 |---|---|
-| JetPack 6.1 이미지 빌드 (`./build.sh 6.1`) | 통과. 이미지 9.2GB, tar 3.4GB (빌드 약 20분) |
+| 세 벌 빌드 (`./build.sh 6.0 / 6.1 / 6.2`) | 전부 통과. 이미지 약 9GB, tar 3.8 / 3.4 / 3.4 GB (한 벌 15~20분) |
 | `docker rmi` → `docker load` → 컨테이너 실행 | 통과 |
 | 컨테이너 안 rclpy·cv_bridge·vision_msgs, ROS2 토픽, trtexec, labels.txt | ok |
 | TensorRT·pyds·GPU·nvinfer | AWS에서는 "라이브러리 없음" — **정상**. JetPack 6 DeepStream 컨테이너는 CUDA·TensorRT를 호스트(Jetson)에서 마운트해 쓰므로 로봇에서 `--runtime nvidia`로 실행해야 보임 |
