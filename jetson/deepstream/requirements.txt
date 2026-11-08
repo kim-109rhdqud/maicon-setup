@@ -1,0 +1,4 @@
+# 컨테이너 안 Python 패키지 (OpenCV 는 apt 의 python3-opencv 를 씀 — cv_bridge 와 충돌 방지)
+numpy<2
+requests>=2.31
+PyYAML>=6.0

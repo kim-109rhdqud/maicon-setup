@@ -2,3 +2,5 @@ windows/offline/
 windows/installed-*.txt
 windows/setup_log.txt
 *.tar
+jetson/deepstream/tars/
+jetson/deepstream/scripts/export_yolo*.py

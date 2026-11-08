@@ -1,0 +1,10 @@
+ammo_box
+drum
+mortar
+military_truck
+tank
+missile
+comms
+outpost
+radar
+enemy_ugv
