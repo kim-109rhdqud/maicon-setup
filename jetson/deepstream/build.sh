@@ -26,7 +26,8 @@ build_one() {
     echo "x86 호스트 → buildx 에뮬레이션 (매우 느림). 처음이면: docker run --privileged --rm tonistiigi/binfmt --install arm64"
     docker buildx build --platform linux/arm64 --load "${args[@]}"
   fi
-  docker image inspect "$tag" --format '이미지 {{.RepoTags}} {{.Architecture}} {{printf "%.1f" (divf .Size 1073741824)}} GB'
+  local bytes; bytes=$(docker image inspect "$tag" --format '{{.Size}}')
+  echo "이미지 $tag $(docker image inspect "$tag" --format '{{.Architecture}}') $((bytes / 1073741824)).$(( (bytes % 1073741824) * 10 / 1073741824 )) GB"
   if [ "$SAVE" = 1 ]; then
     mkdir -p tars
     local out="tars/maicon-detector-jp${jp}.tar"
