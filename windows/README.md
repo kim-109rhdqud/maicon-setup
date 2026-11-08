@@ -22,7 +22,6 @@ VS Code 확장·설정은 스크립트가 깔지 않고 **개인 계정 동기�
 
 1. 자기 PC의 VS Code에서 왼쪽 아래 계정 아이콘 → GitHub(또는 Microsoft) 로그인
 2. "설정 동기화 켜기(Backup and Sync Settings)" → 확장(Extensions) 항목 체크 확인
-3. 휴대폰에 GitHub 2단계 인증 준비 (현장 PC에서 로그인할 때 필요)
 
 현장에서 VS Code를 켜고 같은 계정으로 로그인하면 확장·설정·단축키가 자동으로 따라온다. 대회가 끝나면 현장 PC에서 로그아웃한다.
 스크립트는 팀 공통인 Python, Remote-SSH 2개만 깐다.
@@ -81,7 +80,6 @@ ROS2 포함 Ubuntu tar 만드는 법 (둘 중 하나):
 
 ## 알려진 확인 사항
 
-- `Anthropic.Claude`, `Anthropic.ClaudeCode` winget ID는 확인이 필요하다. 없으면 `packages.csv`에서 빼고 직접 설치.
-- `winget download`는 Microsoft Store 전용 패키지(Windows Terminal, Ubuntu)를 못 받을 수 있다. 그 경우 REPORT.txt에 남으니 `offline\installers\<Id>\`에 msixbundle/appx를 직접 넣는다.
+
 - RTX 50 시리즈는 cu128 빌드 PyTorch만 GPU를 쓴다. 오프라인 휠도 그 빌드로 받는다.
 - 팀 회의에서 버전이 정해지면 `requirements-*.txt`와 `packages.csv`만 고치면 된다.
