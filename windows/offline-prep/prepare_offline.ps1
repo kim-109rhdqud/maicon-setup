@@ -63,9 +63,9 @@ if (-not $SkipInstallers) {
             if ((Test-Path $dir) -and (Get-ChildItem $dir -File -ErrorAction SilentlyContinue | Where-Object { $_.Extension -match "exe|msi|msix|appx" })) { Ok "$($p.Name) 있음"; continue }
             New-Item -ItemType Directory -Force -Path $dir | Out-Null
             Write-Host "  받는 중: $($p.Name) ($($p.Id))"
-            winget download --id $p.Id -e -d $dir --architecture x64 --accept-package-agreements --accept-source-agreements --skip-license 2>&1 | Out-Null
+            winget download --id $p.Id -e --source winget -d $dir --architecture x64 --accept-package-agreements --accept-source-agreements --skip-license 2>&1 | Out-Null
             if ($LASTEXITCODE -ne 0) {
-                winget download --id $p.Id -e -d $dir --accept-package-agreements --accept-source-agreements --skip-license 2>&1 | Out-Null
+                winget download --id $p.Id -e --source winget -d $dir --accept-package-agreements --accept-source-agreements --skip-license 2>&1 | Out-Null
             }
             if (Get-ChildItem $dir -File -ErrorAction SilentlyContinue | Where-Object { $_.Extension -match "exe|msi|msix|appx" }) { Ok $p.Name }
             else { Miss "$($p.Name) ($($p.Id)): winget download 실패 → 직접 받아서 $dir 에 넣기. $($p.Note)" }

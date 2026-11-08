@@ -85,7 +85,7 @@ Step "역할: $Role / 설치 방식: $mode / 재개: $Resume"
 # ---------------------------------------------------------------- 공용 함수
 function Installed-Winget($id) {
     if (-not (Get-Command winget -ErrorAction SilentlyContinue)) { return $false }
-    $out = winget list --id $id -e --accept-source-agreements 2>$null | Out-String
+    $out = winget list --id $id -e --source winget --accept-source-agreements 2>$null | Out-String
     return $out -match [regex]::Escape($id)
 }
 
@@ -113,9 +113,14 @@ function Install-Package($id, $name, $silent) {
     if ($Offline) { Install-Offline $id $name $silent; return }
     if (-not $online) { Warn "$name : 인터넷 없음, 건너뜀"; return }
     Write-Host "  설치 중: $name"
-    winget install --id $id -e --silent --accept-package-agreements --accept-source-agreements | Out-Null
+    $wo = winget install --id $id -e --source winget --silent --accept-package-agreements --accept-source-agreements 2>&1
     if ($LASTEXITCODE -eq 0 -or $LASTEXITCODE -eq -1978335189) { Ok "$name 설치 완료" }   # -1978335189 = 이미 설치됨
-    else { Warn "$name 설치 실패 (winget 코드 $LASTEXITCODE)" }
+    else {
+        # 진행 표시(스피너·막대)를 뺀 마지막 몇 줄만 보여 줌
+        $wo | ForEach-Object { "$_".Trim() } | Where-Object { $_ -and $_ -notmatch '^[-\\|/]$' -and $_ -notmatch '[█▒]' } |
+            Select-Object -Last 4 | ForEach-Object { Write-Host "       $_" -ForegroundColor DarkGray }
+        Warn "$name 설치 실패 (winget 코드 $LASTEXITCODE)"
+    }
 }
 
 # ---------------------------------------------------------------- 1. winget 준비
