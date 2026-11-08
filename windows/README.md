@@ -44,8 +44,8 @@ VS Code 확장·설정은 스크립트가 깔지 않고 **개인 계정 동기�
 
 | 역할 | 설치되는 것 |
 |---|---|
-| 공통 | Git, 7-Zip, Chrome, Python 3.10, Node.js LTS, Windows Terminal, MobaXterm, OpenSSH, Foxglove, venv + 공통 패키지, VS Code 확장 2개(Python·Remote-SSH) |
-| 직접 설치 | VS Code, Claude Desktop, Claude Code (스크립트는 있는지 확인만) |
+| 공통 | Git, 7-Zip, Chrome, Python 3.10, Node.js LTS, Windows Terminal, MobaXterm, OpenSSH, venv + 공통 패키지, VS Code 확장 2개(Python·Remote-SSH) |
+| 직접 설치 | VS Code, Claude Desktop, Claude Code, Foxglove (스크립트는 있는지 확인만. Foxglove 는 2.0부터 winget 배포가 없어 https://foxglove.dev/download 에서 받음) |
 | + desktop | PyTorch(CUDA 12.8) + torchvision, ultralytics, onnx. NVIDIA 드라이버는 수동 |
 | + WSL (기본 켜짐, `-NoWsl`로 끔) | WSL2, Ubuntu 22.04 + ROS2 Humble + RViz + foxglove-bridge. 배포판 이름 `maicon-ros2`, 사용자 `maicon`/`maicon` |
 

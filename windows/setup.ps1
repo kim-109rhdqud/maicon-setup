@@ -285,8 +285,11 @@ if (-not $NoWsl) {
 # ---------------------------------------------------------------- 8. 확인
 Step "8. 확인"
 if ($py -and (Test-Path "$WorkDir\venv\Scripts\python.exe")) {
-    & "$WorkDir\venv\Scripts\python.exe" (Join-Path $Here "check_env.py") $Role
-    if ($LASTEXITCODE -ne 0) { Fail "check_env.py 에서 문제 발견 (위 [X] 항목 확인)" }
+    # 출력이 로그(setup_log.txt)에도 남도록 Write-Host 로 받음. 한글 출력이 깨지지 않게 UTF-8
+    $env:PYTHONIOENCODING = "utf-8"; $prevEnc = [Console]::OutputEncoding; [Console]::OutputEncoding = [Text.Encoding]::UTF8
+    & "$WorkDir\venv\Scripts\python.exe" (Join-Path $Here "check_env.py") $Role 2>&1 | ForEach-Object { Write-Host "  $_" }
+    $code = $LASTEXITCODE; [Console]::OutputEncoding = $prevEnc
+    if ($code -ne 0) { Fail "check_env.py 에서 문제 발견 (위 [X] 항목 확인)" }
 } else { Fail "venv 가 없어 check_env.py 를 못 돌림" }
 Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce" -Name "MaiconSetup" -ErrorAction SilentlyContinue
 

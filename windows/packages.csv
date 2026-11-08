@@ -9,6 +9,6 @@ Microsoft.WindowsTerminal,Windows Terminal,all,,msixbundle
 Mobatek.MobaXterm,MobaXterm,all,/S,
 Anthropic.Claude,Claude Desktop,manual,/S,https://claude.ai/download
 Anthropic.ClaudeCode,Claude Code,manual,/S,npm install -g @anthropic-ai/claude-code (Node.js 는 스크립트가 깖)
-Foxglove.Studio,Foxglove,all,/S,ROS 토픽 보기 (WSL 없이도 됨)
+Foxglove.Studio,Foxglove,manual,/S,https://foxglove.dev/download (2.0부터 winget 배포 중단 — 직접 받아 설치. ROS 토픽 보기)
 Microsoft.WSL,WSL2,wsl,/quiet /norestart,msi. 설치 후 재부팅
 Canonical.Ubuntu.2204,Ubuntu 22.04 (WSL),wsl,,appx. ros2 rootfs tar 가 있으면 건너뜀
