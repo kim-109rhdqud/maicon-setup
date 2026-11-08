@@ -7,7 +7,7 @@
 
 | 파일 | 역할 |
 |---|---|
-| `setup.bat` | **현장에서 더블클릭.** 관리자 권한으로 `setup.ps1` 실행 |
+| `setup.bat` | **현장에서 우클릭 → 관리자 권한으로 실행.** `setup.ps1` 실행 |
 | `setup.ps1` | 설치 본체. 온/오프라인 자동 판단, 재부팅 후 이어서 실행 |
 | `packages.csv` | **설치할 프로그램 목록.** 팀원이 한 줄씩 추가 (Id = winget ID, Roles = all/desktop/laptop/wsl/manual). manual = 직접 설치, 스크립트는 확인만 |
 | `requirements-common.txt` | 모든 PC Python 패키지 |
@@ -33,7 +33,7 @@ VS Code 확장·설정은 스크립트가 깔지 않고 **개인 계정 동기�
 | 1 | **VS Code 설치** | https://code.visualstudio.com 에서 받아 설치 → 계정 로그인(확장·설정 동기화) |
 | 2 | **Claude Desktop 설치** | https://claude.ai/download 에서 받아 설치 |
 | 3 | 이 폴더를 PC로 복사 | 외장 드라이브 또는 GitHub ZIP. **ZIP은 반드시 압축을 푼 뒤 실행** (ZIP 안에서 바로 실행하면 임시 폴더에서 돌아 재부팅 후 자동 재개가 깨짐) |
-| 4 | **`setup.bat` 더블클릭** | UAC 예 → **새로 뜬 관리자 창**에서 `desktop` 또는 `laptop` 입력. Git·Python·Node.js 등 자동 설치. 끝나면 결과를 보여 주고 Enter 를 눌러야 닫힘 |
+| 4 | **`setup.bat` 우클릭 → 관리자 권한으로 실행** | UAC 예 → `desktop` 또는 `laptop` 입력. Git·Python·Node.js 등 자동 설치. 끝나면 결과 확인 후 아무 키나 눌러 닫기. (그냥 더블클릭해도 되지만, 그때는 관리자 창이 새로 떠서 그 창에서 진행됨) |
 | 5 | 재부팅 (WSL 처음 켜는 PC만) | "지금 재부팅?" Y → 로그인하면 자동으로 이어서 설치 (UAC 예) |
 | 6 | 결과 확인 | `모두 정상` 또는 `확인할 것 N건`. 로그 `setup_log.txt` |
 | 7 | **Claude Code 설치** | 새 터미널에서 `npm install -g @anthropic-ai/claude-code` (4번에서 깐 Node.js 사용) |
