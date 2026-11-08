@@ -12,10 +12,9 @@
 | `packages.csv` | **설치할 프로그램 목록.** 팀원이 한 줄씩 추가 (Id = winget ID, Roles = all/desktop/laptop/wsl) |
 | `requirements-common.txt` | 모든 PC Python 패키지 |
 | `requirements-train.txt` | 데스크탑(학습) 추가 패키지. PyTorch는 스크립트가 cu128로 먼저 설치 |
-| `prepare_offline.ps1` | **대회 전 인터넷 되는 Windows에서 1번 실행.** 설치 파일·휠·확장을 `offline\`에 모음 |
-| `wsl/install_ros2.sh` | WSL Ubuntu 안에 ROS2 Humble(RViz) 설치 (온라인일 때 자동 실행) |
-| `wsl/build_rootfs.sh` + `Dockerfile` | 리눅스에서 ROS2 포함 Ubuntu를 tar 하나로 만들기 (오프라인 WSL용) |
+| `wsl/install_ros2.sh` | WSL Ubuntu 안에 ROS2 Humble(RViz) 설치 (`setup.ps1`이 자동 실행) |
 | `check_env.py` | 설치 확인 (desktop은 GPU 연산까지) |
+| `offline-prep/` | **인터넷이 안 될 때만.** 대회 전에 설치 파일을 미리 받아 두는 도구. 온라인이면 안 봐도 됨 |
 
 ## 현장에서
 
@@ -33,13 +32,15 @@
 
 옵션: `setup.ps1 -Role laptop -NoWsl`, `-Offline E:\maicon-offline`, `-RepoUrl https://github.com/<팀>/<저장소>.git`
 
-## 대회 전에 (오프라인 준비)
+## 인터넷이 안 될 때 (보험) — `offline-prep/`
 
-인터넷 되는 Windows PC에서:
+온라인이 확정이면 이 절은 건너뛴다. 대회 전에 인터넷 되는 Windows PC에서:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File prepare_offline.ps1 -Out E:\maicon-offline
+powershell -ExecutionPolicy Bypass -File offline-prep\prepare_offline.ps1 -Out E:\maicon-offline
 ```
+
+현장에서는 `setup.ps1 -Offline E:\maicon-offline` 로 실행하면 인터넷 없이 같은 결과가 나온다.
 
 만들어지는 것 (약 5~10GB, WSL tar 포함 시 +3~4GB):
 
@@ -55,8 +56,8 @@ offline\
 ```
 
 ROS2 포함 Ubuntu tar 만드는 법 (둘 중 하나):
-- 리눅스/Docker 있는 곳: `bash wsl/build_rootfs.sh` → `offline/wsl/ros2-humble-22.04.tar`
-- 또는 온라인으로 한 번 `setup.ps1`을 끝까지 돌린 Windows에서 `prepare_offline.ps1`을 실행하면 그 PC의 `maicon-ros2`를 `wsl --export`로 내보냄
+- 리눅스/Docker 있는 곳: `bash offline-prep/build_rootfs.sh` → `offline/wsl/ros2-humble-22.04.tar`
+- 또는 온라인으로 한 번 `setup.ps1`을 끝까지 돌린 Windows에서 `offline-prep\prepare_offline.ps1`을 실행하면 그 PC의 `maicon-ros2`를 `wsl --export`로 내보냄
 
 ## 검증 (깨끗한 Windows 11에서)
 

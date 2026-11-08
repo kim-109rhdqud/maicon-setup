@@ -1,6 +1,6 @@
 ﻿# 오프라인 설치용 파일을 미리 받아 둔다 (인터넷 되는 Windows PC 에서 실행, 대회 전에 1번)
 #
-#   powershell -ExecutionPolicy Bypass -File prepare_offline.ps1 -Out E:\maicon-offline
+#   powershell -ExecutionPolicy Bypass -File offline-prep\prepare_offline.ps1 -Out E:\maicon-offline
 #
 # 만들어지는 폴더 (외장 드라이브에 통째로 복사해서 setup.ps1 -Offline <폴더> 로 씀)
 #   offline\winget\        winget 자체 설치 파일 (App Installer msixbundle + 의존 appx)
@@ -14,7 +14,7 @@
 # 필요: winget 1.6 이상, Python 3.10 (py -3.10). Python 3.10 이 없으면 아무 Python 으로도 받을 수 있게 옵션을 줌.
 
 param(
-    [string]$Out = (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "offline"),
+    [string]$Out = (Join-Path (Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)) "offline"),
     [switch]$SkipWheels,
     [switch]$SkipInstallers
 )
@@ -121,7 +121,7 @@ elseif ((wsl -l -q 2>$null | Out-String) -match "maicon-ros2") {
     Write-Host "  이 PC 의 maicon-ros2 배포판을 내보냄 (몇 GB, 몇 분)"
     wsl --export maicon-ros2 $tar
     if ($LASTEXITCODE -eq 0) { Ok "ros2-humble-22.04.tar" } else { Miss "wsl --export 실패" }
-} else { Miss "ROS2 rootfs tar 없음 → 리눅스에서 wsl\build_rootfs.sh 로 만들거나, 이 PC 에 maicon-ros2 를 먼저 만든 뒤 다시 실행. 없으면 현장에서 인터넷으로 설치" }
+} else { Miss "ROS2 rootfs tar 없음 → 리눅스에서 offline-prep\build_rootfs.sh 로 만들거나, 이 PC 에 maicon-ros2 를 먼저 만든 뒤 다시 실행. 없으면 현장에서 인터넷으로 설치" }
 
 # ---------------------------------------------------------------- 6. 수동 항목
 Step "6. 수동으로 넣을 것"

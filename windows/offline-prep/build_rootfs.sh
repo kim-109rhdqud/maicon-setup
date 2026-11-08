@@ -4,9 +4,9 @@
 # Windows 에서는 setup.ps1 이 이 tar 를 `wsl --import maicon-ros2 ...` 로 넣는다. (x86_64 에서 빌드할 것)
 set -e
 cd "$(dirname "$0")"
-OUT="${1:-../offline/wsl}"
+OUT="${1:-../offline/wsl}"   # windows/offline/wsl
 mkdir -p "$OUT"
-docker build --platform linux/amd64 -t maicon-ros2-rootfs .
+cp ../wsl/install_ros2.sh . && docker build --platform linux/amd64 -t maicon-ros2-rootfs . && rm -f install_ros2.sh
 cid=$(docker create --platform linux/amd64 maicon-ros2-rootfs)
 docker export "$cid" -o "$OUT/ros2-humble-22.04.tar"
 docker rm "$cid" >/dev/null
