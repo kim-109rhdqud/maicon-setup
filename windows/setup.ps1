@@ -11,7 +11,8 @@
 #   -RepoUrl <주소>         팀 저장소 clone
 #   -Resume                (내부용) 재부팅 뒤 이어서 실행
 #
-# 설치 목록은 packages.csv 에서 관리한다. 다시 실행해도 안전하다(깔린 것은 건너뜀).
+# 설치 목록은 packages.csv 에서 관리한다 (Roles=manual 은 직접 설치, 스크립트는 있는지만 확인).
+# 다시 실행해도 안전하다(깔린 것은 건너뜀).
 # 로그: setup_log.txt
 
 param(
@@ -125,6 +126,11 @@ if (-not $Resume) {
     foreach ($p in $pkgs) {
         $roles = $p.Roles.Split(";")
         if ($roles -contains "wsl") { continue }                        # WSL 은 7단계에서
+        if ($roles -contains "manual") {                                # 직접 설치하는 것: 깔렸는지만 확인
+            if (Installed-Winget $p.Id) { Ok "$($p.Name) 있음 (직접 설치)" }
+            else { Warn "$($p.Name) : 직접 설치 필요 → $($p.Note)" }
+            continue
+        }
         if (-not ($roles -contains "all" -or $roles -contains $Role)) { continue }
         Install-Package $p.Id $p.Name $p.Silent
     }

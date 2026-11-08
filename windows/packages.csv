@@ -3,11 +3,11 @@ Git.Git,Git,all,/VERYSILENT /NORESTART,
 7zip.7zip,7-Zip,all,/S,
 Google.Chrome,Google Chrome,all,/silent /install,현장 PC에는 이미 있음
 Python.Python.3.10,Python 3.10,all,/quiet InstallAllUsers=1 PrependPath=1 Include_launcher=1,
-Microsoft.VisualStudioCode,VS Code,all,/VERYSILENT /NORESTART /MERGETASKS=!runcode;addcontextmenufiles;addcontextmenufolders;addtopath,
+Microsoft.VisualStudioCode,VS Code,manual,/VERYSILENT /NORESTART /MERGETASKS=!runcode;addcontextmenufiles;addcontextmenufolders;addtopath,https://code.visualstudio.com
 Microsoft.WindowsTerminal,Windows Terminal,all,,msixbundle
 Mobatek.MobaXterm,MobaXterm,all,/S,
-Anthropic.Claude,Claude Desktop,all,/S,winget ID 확인 필요. 없으면 claude.ai/download 에서 직접
-Anthropic.ClaudeCode,Claude Code,all,/S,winget ID 확인 필요. 없으면 npm 또는 공식 설치 명령
+Anthropic.Claude,Claude Desktop,manual,/S,https://claude.ai/download
+Anthropic.ClaudeCode,Claude Code,manual,/S,https://claude.ai/code (공식 설치 안내)
 Foxglove.Studio,Foxglove,all,/S,ROS 토픽 보기 (WSL 없이도 됨)
 Microsoft.WSL,WSL2,wsl,/quiet /norestart,msi. 설치 후 재부팅
 Canonical.Ubuntu.2204,Ubuntu 22.04 (WSL),wsl,,appx. ros2 rootfs tar 가 있으면 건너뜀

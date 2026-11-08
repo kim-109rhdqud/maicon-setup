@@ -9,7 +9,7 @@
 |---|---|
 | `setup.bat` | **현장에서 더블클릭.** 관리자 권한으로 `setup.ps1` 실행 |
 | `setup.ps1` | 설치 본체. 온/오프라인 자동 판단, 재부팅 후 이어서 실행 |
-| `packages.csv` | **설치할 프로그램 목록.** 팀원이 한 줄씩 추가 (Id = winget ID, Roles = all/desktop/laptop/wsl) |
+| `packages.csv` | **설치할 프로그램 목록.** 팀원이 한 줄씩 추가 (Id = winget ID, Roles = all/desktop/laptop/wsl/manual). manual = 직접 설치, 스크립트는 확인만 |
 | `requirements-common.txt` | 모든 PC Python 패키지 |
 | `requirements-train.txt` | 데스크탑(학습) 추가 패키지. PyTorch는 스크립트가 cu128로 먼저 설치 |
 | `wsl/install_ros2.sh` | WSL Ubuntu 안에 ROS2 Humble(RViz) 설치 (`setup.ps1`이 자동 실행) |
@@ -28,7 +28,10 @@ VS Code 확장·설정은 스크립트가 깔지 않고 **개인 계정 동기�
 
 ## 현장에서
 
-1. 직접 설치: (스크립트에 포함돼 있지만 winget ID가 틀리면) VS Code, Claude 데스크탑
+1. **직접 설치 (사이트에서):** VS Code, Claude Desktop, Claude Code. 스크립트는 깔렸는지만 확인하고 없으면 알려줌
+   - VS Code: https://code.visualstudio.com → 설치 후 계정 로그인하면 확장·설정이 따라옴
+   - Claude Desktop: https://claude.ai/download
+   - Claude Code: https://claude.ai/code 의 설치 안내
 2. 이 폴더를 PC로 복사 (외장 드라이브 또는 GitHub ZIP)
 3. `setup.bat` 더블클릭 → UAC 예 → `desktop` 또는 `laptop` 입력
 4. WSL을 처음 켜는 PC는 **재부팅 1회**. 재부팅 후 로그인하면 자동으로 이어서 설치 (UAC 창에 예)
@@ -36,7 +39,8 @@ VS Code 확장·설정은 스크립트가 깔지 않고 **개인 계정 동기�
 
 | 역할 | 설치되는 것 |
 |---|---|
-| 공통 | Git, 7-Zip, Chrome, Python 3.10, VS Code(+Python·Remote-SSH 확장, 나머지는 개인 동기화), Windows Terminal, MobaXterm, OpenSSH, Claude Desktop, Claude Code, Foxglove, venv + 공통 패키지 |
+| 공통 | Git, 7-Zip, Chrome, Python 3.10, Windows Terminal, MobaXterm, OpenSSH, Foxglove, venv + 공통 패키지, VS Code 확장 2개(Python·Remote-SSH) |
+| 직접 설치 | VS Code, Claude Desktop, Claude Code (스크립트는 있는지 확인만) |
 | + desktop | PyTorch(CUDA 12.8) + torchvision, ultralytics, onnx. NVIDIA 드라이버는 수동 |
 | + WSL (기본 켜짐, `-NoWsl`로 끔) | WSL2, Ubuntu 22.04 + ROS2 Humble + RViz + foxglove-bridge. 배포판 이름 `maicon-ros2`, 사용자 `maicon`/`maicon` |
 
