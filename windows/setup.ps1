@@ -73,7 +73,10 @@ if (-not $Role) {
 if ($Role -ne "desktop" -and $Role -ne "laptop") { Fail "Role 은 desktop 또는 laptop: $Role"; Quit-Setup 1 }
 
 $online = $false
-try { Invoke-WebRequest -Uri "https://www.msftconnecttest.com/connecttest.txt" -UseBasicParsing -TimeoutSec 5 | Out-Null; $online = $true } catch {}
+# msftconnecttest 는 HTTP 전용 (HTTPS 는 인증서 불일치로 항상 실패). 실제로 쓰는 곳(GitHub, PyPI)도 같이 확인
+foreach ($u in "http://www.msftconnecttest.com/connecttest.txt", "https://github.com", "https://pypi.org/simple/pip/") {
+    try { Invoke-WebRequest -Uri $u -UseBasicParsing -TimeoutSec 8 -Method Head | Out-Null; $online = $true; break } catch {}
+}
 if (-not $Offline -and -not $online -and (Test-Path (Join-Path $Here "offline"))) { $Offline = Join-Path $Here "offline" }
 if ($Offline -and -not (Test-Path $Offline)) { Fail "offline 폴더 없음: $Offline"; Quit-Setup 1 }
 $mode = "온라인(winget)"; if ($Offline) { $mode = "오프라인($Offline)" } elseif (-not $online) { $mode = "인터넷 없음 + offline 폴더 없음 → 대부분 실패함" }
