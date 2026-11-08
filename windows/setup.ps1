@@ -1,4 +1,4 @@
-﻿﻿# MAICON 2026 현장 PC 개발환경 자동 설치 (Windows 11)
+﻿# MAICON 2026 현장 PC 개발환경 자동 설치 (Windows 11)
 #
 # 실행: setup.bat 더블클릭 (관리자 권한으로 자동 전환)
 #   또는  powershell -ExecutionPolicy Bypass -File setup.ps1 -Role laptop
@@ -21,7 +21,8 @@ param(
     [switch]$NoWsl,
     [string]$RepoUrl = "",
     [string]$WorkDir = "$env:USERPROFILE\maicon2026",
-    [switch]$Resume
+    [switch]$Resume,
+    [switch]$Elevated
 )
 
 $ErrorActionPreference = "Continue"
@@ -44,10 +45,18 @@ if (-not $isAdmin) {
         $v = $PSBoundParameters[$k]
         if ($v -is [switch]) { if ($v) { $psargs += "-$k" } } else { $psargs += "-$k"; $psargs += "`"$v`"" }
     }
+    $psargs += "-Elevated"   # 새 창은 끝나면 바로 닫히므로, 결과를 볼 수 있게 마지막에 멈추라는 표시
+    Write-Host "관리자 권한 창에서 설치를 계속합니다. 새로 뜬 창을 보세요 (UAC '예')."
     Start-Process powershell -Verb RunAs -ArgumentList $psargs
     exit
 }
 Start-Transcript -Path $Log -Append | Out-Null
+
+function Quit-Setup($code) {
+    Stop-Transcript | Out-Null
+    if ($Elevated) { Read-Host "Enter 를 누르면 이 창이 닫힙니다" | Out-Null }
+    exit $code
+}
 
 function Refresh-Path {
     $env:Path = [Environment]::GetEnvironmentVariable("Path", "Machine") + ";" +
@@ -61,12 +70,12 @@ if (-not $Role) {
     $ans = Read-Host "이 PC 는? [desktop = RTX 5070 학습용 / laptop = 개발 노트북] (Enter = $default)"
     if ($ans) { $Role = $ans.Trim().ToLower() } else { $Role = $default }
 }
-if ($Role -ne "desktop" -and $Role -ne "laptop") { Fail "Role 은 desktop 또는 laptop: $Role"; Stop-Transcript | Out-Null; exit 1 }
+if ($Role -ne "desktop" -and $Role -ne "laptop") { Fail "Role 은 desktop 또는 laptop: $Role"; Quit-Setup 1 }
 
 $online = $false
 try { Invoke-WebRequest -Uri "https://www.msftconnecttest.com/connecttest.txt" -UseBasicParsing -TimeoutSec 5 | Out-Null; $online = $true } catch {}
 if (-not $Offline -and -not $online -and (Test-Path (Join-Path $Here "offline"))) { $Offline = Join-Path $Here "offline" }
-if ($Offline -and -not (Test-Path $Offline)) { Fail "offline 폴더 없음: $Offline"; Stop-Transcript | Out-Null; exit 1 }
+if ($Offline -and -not (Test-Path $Offline)) { Fail "offline 폴더 없음: $Offline"; Quit-Setup 1 }
 $mode = "온라인(winget)"; if ($Offline) { $mode = "오프라인($Offline)" } elseif (-not $online) { $mode = "인터넷 없음 + offline 폴더 없음 → 대부분 실패함" }
 Step "역할: $Role / 설치 방식: $mode / 재개: $Resume"
 
@@ -267,7 +276,10 @@ if (-not $NoWsl) {
 
 # ---------------------------------------------------------------- 8. 확인
 Step "8. 확인"
-if ($py -and (Test-Path "$WorkDir\venv\Scripts\python.exe")) { & "$WorkDir\venv\Scripts\python.exe" (Join-Path $Here "check_env.py") $Role }
+if ($py -and (Test-Path "$WorkDir\venv\Scripts\python.exe")) {
+    & "$WorkDir\venv\Scripts\python.exe" (Join-Path $Here "check_env.py") $Role
+    if ($LASTEXITCODE -ne 0) { Fail "check_env.py 에서 문제 발견 (위 [X] 항목 확인)" }
+} else { Fail "venv 가 없어 check_env.py 를 못 돌림" }
 Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce" -Name "MaiconSetup" -ErrorAction SilentlyContinue
 
 Write-Host ""
@@ -276,3 +288,4 @@ else { Write-Host "모두 정상" -ForegroundColor Green }
 Write-Host "가상환경 켜기:  $WorkDir\venv\Scripts\activate"
 Write-Host "로그: $Log"
 Stop-Transcript | Out-Null
+if ($Elevated) { Read-Host "`nEnter 를 누르면 이 창이 닫힙니다" | Out-Null }
