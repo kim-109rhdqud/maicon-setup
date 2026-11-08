@@ -196,9 +196,9 @@ if ($py) {
 }
 
 # ---------------------------------------------------------------- 6. VS Code 확장
-Step "6. VS Code 확장"
+Step "6. VS Code 확장 (팀 공통 2개만 — 나머지는 각자 VS Code 로그인 → 설정 동기화로 가져옴)"
 Refresh-Path
-$exts = @("ms-python.python", "ms-toolsai.jupyter", "ms-vscode-remote.remote-ssh", "ms-iot.vscode-ros")
+$exts = @("ms-python.python", "ms-vscode-remote.remote-ssh")
 if (Get-Command code -ErrorAction SilentlyContinue) {
     foreach ($e in $exts) {
         if ($Offline) {
@@ -207,6 +207,7 @@ if (Get-Command code -ErrorAction SilentlyContinue) {
         } else { code --install-extension $e --force | Out-Null; Ok $e }
     }
 } else { Warn "VS Code 없음 (설치 후 다시 실행하면 확장도 깔림)" }
+Write-Host "  개인 확장·설정: VS Code 에서 계정 로그인 → 설정 동기화 켜면 자동으로 따라옴" -ForegroundColor DarkGray
 
 # ---------------------------------------------------------------- 7. WSL2 + Ubuntu 22.04 + ROS2
 if (-not $NoWsl) {

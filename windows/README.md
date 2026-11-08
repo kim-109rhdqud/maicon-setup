@@ -16,6 +16,17 @@
 | `check_env.py` | 설치 확인 (desktop은 GPU 연산까지) |
 | `offline-prep/` | **인터넷이 안 될 때만.** 대회 전에 설치 파일을 미리 받아 두는 도구. 온라인이면 안 봐도 됨 |
 
+## 대회 전에 각자 (1분)
+
+VS Code 확장·설정은 스크립트가 깔지 않고 **개인 계정 동기화**로 가져온다.
+
+1. 자기 PC의 VS Code에서 왼쪽 아래 계정 아이콘 → GitHub(또는 Microsoft) 로그인
+2. "설정 동기화 켜기(Backup and Sync Settings)" → 확장(Extensions) 항목 체크 확인
+3. 휴대폰에 GitHub 2단계 인증 준비 (현장 PC에서 로그인할 때 필요)
+
+현장에서 VS Code를 켜고 같은 계정으로 로그인하면 확장·설정·단축키가 자동으로 따라온다. 대회가 끝나면 현장 PC에서 로그아웃한다.
+스크립트는 팀 공통인 Python, Remote-SSH 2개만 깐다.
+
 ## 현장에서
 
 1. 직접 설치: (스크립트에 포함돼 있지만 winget ID가 틀리면) VS Code, Claude 데스크탑
@@ -26,7 +37,7 @@
 
 | 역할 | 설치되는 것 |
 |---|---|
-| 공통 | Git, 7-Zip, Chrome, Python 3.10, VS Code(+Python·Jupyter·Remote-SSH·ROS 확장), Windows Terminal, MobaXterm, OpenSSH, Claude Desktop, Claude Code, Foxglove, venv + 공통 패키지 |
+| 공통 | Git, 7-Zip, Chrome, Python 3.10, VS Code(+Python·Remote-SSH 확장, 나머지는 개인 동기화), Windows Terminal, MobaXterm, OpenSSH, Claude Desktop, Claude Code, Foxglove, venv + 공통 패키지 |
 | + desktop | PyTorch(CUDA 12.8) + torchvision, ultralytics, onnx. NVIDIA 드라이버는 수동 |
 | + WSL (기본 켜짐, `-NoWsl`로 끔) | WSL2, Ubuntu 22.04 + ROS2 Humble + RViz + foxglove-bridge. 배포판 이름 `maicon-ros2`, 사용자 `maicon`/`maicon` |
 
@@ -48,7 +59,7 @@ powershell -ExecutionPolicy Bypass -File offline-prep\prepare_offline.ps1 -Out E
 offline\
   winget\        App Installer msixbundle + VCLibs + UI.Xaml   (새 PC에 winget 없을 때)
   installers\    packages.csv 각 항목의 설치 파일 (winget download)
-  vsix\          VS Code 확장 4개
+  vsix\          VS Code 확장 2개 (Python, Remote-SSH)
   wheels\        Python 패키지 (Windows x64 / Py3.10). PyTorch cu128 포함
   wsl\           ros2-humble-22.04.tar  (아래 방법으로 만든 것)
   nvidia\        RTX 5070 드라이버 exe  ← 직접 받아 넣기

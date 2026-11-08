@@ -75,7 +75,7 @@ if (-not $SkipInstallers) {
 
 # ---------------------------------------------------------------- 3. VS Code 확장 (vsix)
 Step "3. VS Code 확장"
-$exts = @("ms-python.python", "ms-toolsai.jupyter", "ms-vscode-remote.remote-ssh", "ms-iot.vscode-ros")
+$exts = @("ms-python.python", "ms-vscode-remote.remote-ssh")   # 팀 공통만. 개인 확장은 각자 동기화
 foreach ($e in $exts) {
     $f = Join-Path $Out "vsix\$e.vsix"
     if (Test-Path $f) { Ok "$e 있음"; continue }
