@@ -31,7 +31,7 @@ VS Code 확장·설정은 스크립트가 깔지 않고 **개인 계정 동기�
 1. **직접 설치 (사이트에서):** VS Code, Claude Desktop, Claude Code. 스크립트는 깔렸는지만 확인하고 없으면 알려줌
    - VS Code: https://code.visualstudio.com → 설치 후 계정 로그인하면 확장·설정이 따라옴
    - Claude Desktop: https://claude.ai/download
-   - Claude Code: https://claude.ai/code 의 설치 안내
+   - Claude Code: 터미널에서 `npm install -g @anthropic-ai/claude-code` (Node.js는 스크립트가 깔아 둠 → 2번을 먼저 돌린 뒤 실행)
 2. 이 폴더를 PC로 복사 (외장 드라이브 또는 GitHub ZIP)
 3. `setup.bat` 더블클릭 → UAC 예 → `desktop` 또는 `laptop` 입력
 4. WSL을 처음 켜는 PC는 **재부팅 1회**. 재부팅 후 로그인하면 자동으로 이어서 설치 (UAC 창에 예)
@@ -39,7 +39,7 @@ VS Code 확장·설정은 스크립트가 깔지 않고 **개인 계정 동기�
 
 | 역할 | 설치되는 것 |
 |---|---|
-| 공통 | Git, 7-Zip, Chrome, Python 3.10, Windows Terminal, MobaXterm, OpenSSH, Foxglove, venv + 공통 패키지, VS Code 확장 2개(Python·Remote-SSH) |
+| 공통 | Git, 7-Zip, Chrome, Python 3.10, Node.js LTS, Windows Terminal, MobaXterm, OpenSSH, Foxglove, venv + 공통 패키지, VS Code 확장 2개(Python·Remote-SSH) |
 | 직접 설치 | VS Code, Claude Desktop, Claude Code (스크립트는 있는지 확인만) |
 | + desktop | PyTorch(CUDA 12.8) + torchvision, ultralytics, onnx. NVIDIA 드라이버는 수동 |
 | + WSL (기본 켜짐, `-NoWsl`로 끔) | WSL2, Ubuntu 22.04 + ROS2 Humble + RViz + foxglove-bridge. 배포판 이름 `maicon-ros2`, 사용자 `maicon`/`maicon` |
