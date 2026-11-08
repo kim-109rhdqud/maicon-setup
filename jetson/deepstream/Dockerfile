@@ -62,7 +62,9 @@ RUN set -e; ok=0; \
     if [ "$ok" = 0 ] && [ -n "${PYDS_WHEEL}" ]; then \
         pip3 install --no-cache-dir "${PYDS_WHEEL}" && ok=1 || echo "wheel 설치 실패"; \
     fi; \
-    python3 -c "import pyds; print('pyds', pyds.__file__)" || { echo "!!! pyds 설치 실패 — versions.env 의 PYDS_VER/PYDS_WHEEL 확인"; exit 1; }
+    # import 는 Jetson 전용 라이브러리(libnvbufsurface 등, 실행 시 호스트에서 마운트)가 필요해 빌드 서버에서는 안 됨 → 설치 여부만 확인
+    python3 -c "import importlib.util as u; s=u.find_spec('pyds'); assert s, 'pyds 없음'; print('pyds 설치됨:', s.origin)" \
+        || { echo "!!! pyds 설치 실패 — versions.env 의 PYDS_VER/PYDS_WHEEL 확인"; exit 1; }
 
 # ---------------------------------------------------------------- DeepStream-Yolo 파서 (YOLOv5~11 출력 해석)
 # nvcc 가 이미지에 있으면 빌드 때 컴파일, 없으면(호스트 CUDA 마운트 방식) 로봇에서 첫 실행 때 컴파일
