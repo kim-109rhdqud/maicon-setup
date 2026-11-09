@@ -187,7 +187,7 @@ if (Get-Command git -ErrorAction SilentlyContinue) {
 if ($Role -eq "desktop") {
     Step "4. NVIDIA 드라이버"
     if (Get-Command nvidia-smi -ErrorAction SilentlyContinue) { nvidia-smi --query-gpu=name,driver_version --format=csv,noheader; Ok "드라이버 있음" }
-    else { Warn "nvidia-smi 없음 → https://www.nvidia.com/drivers 에서 RTX 5070 드라이버 설치 (오프라인: offline\nvidia\*.exe 직접 실행)" }
+    else { Warn "NVIDIA 드라이버 없음 → USB nvidia\ 폴더(또는 nvidia.com)의 RTX 5070 desktop용 WHQL 드라이버 설치 → 재부팅 → setup.bat 다시 실행 (GPU 확인은 그때 통과)" }
 }
 
 # ---------------------------------------------------------------- 5. 작업 폴더 · 저장소 · 가상환경

@@ -1,6 +1,7 @@
 # 현장 PC 일괄 설치 (Windows 11) — 온라인 · 오프라인
 
-현장 PC에는 Windows 11, 한글, 오피스, 크롬만 있다. 이 폴더 하나로 나머지를 맞춘다.
+현장 PC는 **데스크톱 1대**(RTX 5070, 학습용 → `desktop`)와 **노트북 5대**(내장 그래픽, 개발용 → `laptop`), 모두 Windows 11 Pro.
+OS·한글·MS 오피스 외에는 아무것도 없다(크롬·NVIDIA 드라이버 포함). 이 폴더 하나로 나머지를 맞춘다.
 인터넷이 되면 `winget`으로, 안 되면 외장 드라이브의 `offline` 폴더로 설치한다.
 
 ## 파일
@@ -30,6 +31,7 @@ VS Code 확장·설정은 스크립트가 깔지 않고 **개인 계정 동기�
 
 | 순서 | 할 일 | 방법 |
 |---|---|---|
+| 0 | **(데스크톱만) NVIDIA 드라이버 설치 → 재부팅** | USB `nvidia\` 폴더의 설치 파일 실행 (또는 nvidia.com → GeForce RTX 50 Series → RTX 5070 → Windows 11). **desktop 용 WHQL** 버전 (`…-desktop-win10-win11-64bit-international-dch-whql.exe`). notebook·Hotfix 버전 X. CUDA Toolkit 은 필요 없음 |
 | 1 | **VS Code 설치** | https://code.visualstudio.com 에서 받아 설치 → 계정 로그인(확장·설정 동기화) |
 | 2 | **Claude Desktop 설치** | https://claude.ai/download 에서 받아 설치 |
 | 3 | 이 폴더를 PC로 복사 | 외장 드라이브 또는 GitHub ZIP. **ZIP은 반드시 압축을 푼 뒤 실행** (ZIP 안에서 바로 실행하면 임시 폴더에서 돌아 재부팅 후 자동 재개가 깨짐) |
@@ -40,13 +42,14 @@ VS Code 확장·설정은 스크립트가 깔지 않고 **개인 계정 동기�
 
 - 1·2번은 스크립트 **앞**: VS Code가 있어야 4번에서 확장 2개가 들어감
 - 7번은 스크립트 **뒤**: Node.js가 있어야 함
+- 0번은 데스크톱만, 스크립트 **앞**: 드라이버 없이 돌려도 설치는 되지만 마지막 GPU 확인이 실패함 → 드라이버 설치·재부팅 후 `setup.bat` 다시 실행
 - 순서를 어겼으면 `setup.bat`을 한 번 더 돌리면 됨 (깔린 건 건너뜀)
 
 | 역할 | 설치되는 것 |
 |---|---|
 | 공통 | Git, 7-Zip, Chrome, Python 3.10, Node.js LTS, Windows Terminal, MobaXterm, OpenSSH, venv + 공통 패키지, VS Code 확장 2개(Python·Remote-SSH) |
 | 직접 설치 | VS Code, Claude Desktop, Claude Code, Foxglove (스크립트는 있는지 확인만. Foxglove 는 2.0부터 winget 배포가 없어 https://foxglove.dev/download 에서 받음) |
-| + desktop | PyTorch(CUDA 12.8) + torchvision, ultralytics, onnx. NVIDIA 드라이버는 수동 |
+| + desktop | PyTorch(CUDA 12.8) + torchvision, ultralytics, onnx. NVIDIA 드라이버는 직접 설치 (현장 순서 0번) |
 | + WSL (기본 켜짐, `-NoWsl`로 끔) | WSL2, Ubuntu 22.04 + ROS2 Humble + RViz + foxglove-bridge. 배포판 이름 `maicon-ros2`, 사용자 `maicon`/`maicon` |
 
 옵션: `setup.ps1 -Role laptop -NoWsl`, `-Offline E:\maicon-offline`, `-RepoUrl https://github.com/<팀>/<저장소>.git`
@@ -70,7 +73,7 @@ offline\
   vsix\          VS Code 확장 2개 (Python, Remote-SSH)
   wheels\        Python 패키지 (Windows x64 / Py3.10). PyTorch cu128 포함
   wsl\           ros2-humble-22.04.tar  (아래 방법으로 만든 것)
-  nvidia\        RTX 5070 드라이버 exe  ← 직접 받아 넣기
+  nvidia\        RTX 5070 드라이버 exe (desktop 용 WHQL)  ← 직접 받아 넣기
   REPORT.txt     못 받은 것 목록 ← 이걸 보고 수동으로 채움
 ```
 

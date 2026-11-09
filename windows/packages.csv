@@ -1,7 +1,7 @@
 Id,Name,Roles,Silent,Note
 Git.Git,Git,all,/VERYSILENT /NORESTART,
 7zip.7zip,7-Zip,all,/S,
-Google.Chrome,Google Chrome,all,/silent /install,현장 PC에는 이미 있음
+Google.Chrome,Google Chrome,all,/silent /install,
 Python.Python.3.10,Python 3.10,all,/quiet InstallAllUsers=1 PrependPath=1 Include_launcher=1,
 OpenJS.NodeJS.LTS,Node.js LTS,all,/quiet /norestart,Claude Code(npm) 용
 Microsoft.VisualStudioCode,VS Code,manual,/VERYSILENT /NORESTART /MERGETASKS=!runcode;addcontextmenufiles;addcontextmenufolders;addtopath,https://code.visualstudio.com
